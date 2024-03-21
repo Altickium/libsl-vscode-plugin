@@ -1,0 +1,324 @@
+{
+    "information_for_contributors": [
+      "Hello world!"
+    ],  
+    "name": "LibSL",
+    "scopeName": "source.libsl",
+    "patterns": [
+      {
+        "begin": "\\b(libsl)\\b\\s*",
+        "beginCaptures": {
+          "1": {
+            "name": "keyword.other.libsl.libsl"
+          }
+        },
+        "end": "\\s*(;)",
+        "endCaptures": {
+          "1": {
+            "name": "punctuation.terminator.libsl"
+          }
+        },
+        "name": "meta.libsl.libsl",
+        "contentName": "storage.modifier.libsl.libsl",
+        "patterns": [
+          {
+            "include": "#comments"
+          },
+          {
+            "include": "#double-quoted-string"
+          }
+        ]
+      },
+      {
+        "begin": "\\b(library)\\b\\s*",
+        "beginCaptures": {
+          "1": {
+            "name": "keyword.other.libsl.library"
+          },
+          "2": {
+            "name": "storage.modifier.libsl"
+          }
+        },
+        "end": "\\s*(;)",
+        "endCaptures": {
+          "1": {
+            "name": "punctuation.terminator.libsl"
+          }
+        },
+        "name": "meta.library.libsl",
+        "patterns": [
+          {
+            "include": "identifier"
+          },
+          {
+            "include": "#comments"
+          },
+          {
+            "patterns":[
+              {
+                "match": "\\b(version)\\b\\s*",
+                "name": "keyword.other.libsl.version"
+              },
+              {
+                "include": "#double-quoted-string",
+                "name": "libsl.version.ACTUAL_VER"
+              }
+            ],  
+            "name": "meta.version.libsl"
+          },
+          {
+            "patterns":[
+              {
+                "match": "\\b(language)\\b\\s*",
+                "name": "keyword.other.libsl.language"
+              },
+              {
+                "include": "#double-quoted-string"
+              }
+            ],  
+            "name": "meta.language.libsl",
+            "contentName": "storage.modifier.language.libsl"
+          },
+          {
+            "patterns":[
+              {
+                "match": "\\b(url)\\b\\s*",
+                "name": "keyword.other.libsl.url"
+              },
+              {
+                "include": "#double-quoted-string"
+              }
+            ],  
+            "name": "meta.url.libsl",
+            "contentName": "storage.modifier.url.libsl"
+          }
+        ]
+      },
+      {
+        "include": "#comments-libsldoc"
+      },
+      {
+        "include": "#global-statement"
+      }
+    ],
+    "repository": {
+      "global-statement": {
+        "patterns":[
+          {
+            "include": "#import-statement"
+          },
+          {
+            "include": "#include-statement"
+          },
+          {
+            "include": "#typealias-statement"
+          },
+          {
+            "include": "#enum-block"
+          },
+          {
+            "include": "#annotation-decl"
+          },
+          {
+            "include": "#action-decl"
+          },
+          {
+            "include": "#top-level-decl"
+          },
+          {
+            "include": "#global-statement"
+          }
+        ]
+      },
+      "top-level-decl":{
+        "patterns":[
+          {
+            "include": "#automaton-decl"
+          },
+          {
+            "include": "#function-decl"
+          },
+          {
+            "include": "#variable-decl"
+          }
+        ]
+      },
+      "global-type": {
+        "begin": "\\b(types)\\b\\s*",
+      "beginCaptures":{
+        "1": {
+          "name": "keyword.other.libsl.types"
+        },
+        "2": {
+          "name": "storage.modifier.libsl"
+        }
+      },
+			"end": "}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.section.class.end.bracket.curly.java"
+				}
+			},
+        "patterns": [
+          {
+            "include": "#global-types-body"
+          }
+        ]
+      },
+      "global-types-body":{
+        "patterns": [
+          {
+            "include": "#single-type"
+          },
+          {
+            "include": "#single-array-type"
+          },
+          {
+            "include": "#equivalent-type"
+          }
+        ]
+      },
+      "single-type":{
+        "patterns": [
+          {
+              "begin": "\\b((?:[A-Za-z_]\\w*\\s*\\.\\s*)*)",
+              "beginCaptures": {
+                "1": {
+                  "patterns": [
+                    {
+                      "match": "[A-Za-z_]\\w*",
+                      "name": "storage.type.java"
+                    },
+                    {
+                      "match": "\\.",
+                      "name": "punctuation.separator.period.java"
+                    }
+                  ]
+                },
+                "name": "meta.libsl.libsl",
+                "contentName": "storage.modifier.libsl.libsl",
+                "2": {
+                  "name": "storage.type.object.array.java"
+                }
+              },
+              "end": "\\s*(;)",
+              "patterns": [
+                {
+                  "include": "#comments"
+                },
+                {
+                  "include": "#parens"
+                }
+              ]
+            }
+        ]
+      },
+      "single-array-type":{
+      },
+      "equivalent-type":{
+
+      },
+      "automaton-decl": {
+        "begin": "\\b(automaton)\\b\\s*",
+      "beginCaptures":{
+        "1": {
+          "name": "keyword.other.libsl.types"
+        },
+        "2": {
+          "name": "storage.modifier.libsl"
+        }
+      },
+			"end": "}",
+			"endCaptures": {
+				"0": {
+					"name": "punctuation.section.class.end.bracket.curly.java"
+				}
+			},
+        "patterns": [
+          {
+            "include": "#global-types-body"
+          }
+        ]
+      },
+      "variable-decl": {
+        "patterns": [
+          {
+            "begin": "\\b(var)\\b\\s*",
+            "beginCaptures":{
+            "1": {
+            "name": "keyword.other.libsl.variable"
+            },
+            "2": {
+            "name": "storage.modifier.libsl"
+            }
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.class.end.bracket.curly.java"
+            }
+          },
+          "patterns":[
+            {
+              "include": "name-with-type"
+            }
+          ]
+        },
+          {
+            "begin": "\\b(var)\\b\\s*",
+            "beginCaptures":{
+            "1": {
+            "name": "keyword.other.libsl.variable"
+            },
+            "2": {
+            "name": "storage.modifier.libsl"
+            }
+          },
+          "end": ";",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.class.end.bracket.curly.java"
+          },
+          "patterns":[
+            {
+              "include": "name-with-type"
+            }
+          ]
+          }
+        }
+        ]
+      },
+      "name-with-type":{
+        "begin": "\\b(var)\\b\\s*",
+        "beginCaptures":{
+          "1": {
+            "name": "keyword.other.libsl.variable"
+          },
+          "2": {
+            "name": "storage.modifier.libsl"
+          }
+        },
+        "end": "}",
+        "endCaptures": {
+          "0": {
+            "name": "punctuation.section.class.end.bracket.curly.java"
+          }
+        }
+      },
+      "double-quoted-string":{
+        "begin": "\"",
+        "end": "\"",
+        "name": "string.quoted.double.skill",
+        "patterns": [
+            {
+                "name": "constant.character.escape.skill",
+                "match": "\\\\[\"\\\\]"
+            }
+        ]
+      },
+      "identifer":{
+        "match": "[_a-zA-Z][_a-zA-Z0-9]{0,30}",
+        "name": "identifier.identifier"
+      }
+    } 
+  }
