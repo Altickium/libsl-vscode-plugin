@@ -111,6 +111,9 @@
             "include": "#include-statement"
           },
           {
+            "include": "#types-section"
+          },
+          {
             "include": "#typealias-statement"
           },
           {
@@ -143,14 +146,15 @@
           }
         ]
       },
-      "global-type": {
-        "begin": "\\b(types)\\b\\s*",
-      "beginCaptures":{
-        "1": {
-          "name": "keyword.other.libsl.types"
-        },
-        "2": {
-          "name": "storage.modifier.libsl"
+      "types-section": {
+      "match": "\\b(types)\\b\\s*",
+      "name": "keyword.other.libsl.types",
+      "patterns":[
+        {
+          "begin": "{",
+          "beginCaptures":{
+          "0": {
+          "name": "punctuation.section.class.begin.bracket.curly.java"
         }
       },
 			"end": "}",
@@ -161,24 +165,23 @@
 			},
         "patterns": [
           {
-            "include": "#global-types-body"
+            "include": "#semantic-type-decl"
           }
         ]
+      }
+      ]
       },
-      "global-types-body":{
+      "semantic-type-decl":{
         "patterns": [
           {
-            "include": "#single-type"
+            "include": "#simple-semantic-type"
           },
           {
-            "include": "#single-array-type"
-          },
-          {
-            "include": "#equivalent-type"
+            "include": "#enum-semantic-type"
           }
         ]
       },
-      "single-type":{
+      "simple-semantic-type":{
         "patterns": [
           {
               "begin": "\\b((?:[A-Za-z_]\\w*\\s*\\.\\s*)*)",
@@ -237,6 +240,14 @@
         "patterns": [
           {
             "include": "#global-types-body"
+          },
+          {
+            "match": "\\b(initstate|state|finishstate)\\b\\s*",
+            "name": "support.type.other.libsl.variable"
+          },
+          {
+            "match": "\\b(shift)\\b\\s*",
+            "name": "support.function.other.libsl.variable"
           }
         ]
       },
